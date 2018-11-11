@@ -1,85 +1,42 @@
 package com.company.learning;
 
 import java.util.Scanner;
+import java.util.Random;
 
-/* Tic Tac Toe */
+/* Number guesser minigame */
 
 public class Game {
+    private static final int max = 100;
+    private static final int min = 1;
+    private static int guesses;
+
     private static int readInt() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
-    private static int[][] a = new int[3][3];
 
     public static void main(String[] args) {
-        int s=1;
-        for(int i = 0; i <= 2; i++) {
-            for(int j = 0; j <= 2; j++){
-                a[i][j] = s;
-                s++;
-            }
-        }
-        for (int i = 0; i <= 2; i++) {
-            for (int j = 0; j <= 2; j++) {
-                System.out.print(a[i][j]);
-                System.out.print(" ");
-            }
-            System.out.print("\n");
-        }
+        System.out.println("Choose a level: Level 1, Level 2 or Level 3");
         boolean win = false;
-        int x = 0;
-        while(!win){
-            if(x%2 == 0){
-                System.out.println("Where do you want to put the 0?");
-                int y = readInt();
-                for(int i = 0; i <= 2; i++) {
-                    for(int j = 0; j <= 2; j++){
-                        if(a[i][j] == y) a[i][j] = 0;
-                    }
-                }
-                for (int i = 0; i <= 2; i++) {
-                    for (int j = 0; j <= 2; j++) {
-                        if(a[i][j] >= 0 && a[i][j] <= 9)
-                            System.out.print(a[i][j]);
-                        else System.out.print("X");
-                        System.out.print(" ");
-                    }
-                    System.out.print("\n");
-                }
-            }
-            else{
-                System.out.println("Where do you want to put the X?");
-                int y = readInt();
-                for(int i = 0; i <= 2; i++) {
-                    for(int j = 0; j <= 2; j++){
-                        if (a[i][j] == y) a[i][j] = -1;
-                    }
-                }
-                for (int i = 0; i <= 2; i++) {
-                    for (int j = 0; j <= 2; j++) {
-                        if (a[i][j] >= 0 && a[i][j] <= 9)
-                            System.out.print(a[i][j]);
-                        else System.out.print("X");
-                        System.out.print(" ");
-                    }
-                    System.out.print("\n");
-                }
-            }
-            for(int i = 0; i <= 2; i++){
-                   if (a[0][i] == a[1][i] && a[1][i] == a[2][i]){
-                      System.out.print(a[0][i] + " won!");
-                       win = true;
-                   }
-                   if(a[i][0] == a[i][1] && a[i][1] == a[i][2]){
-                       System.out.print(a[i][0] + " won!");
-                       win = true;
-                   }
-                }
-            if(a[0][0] == a[1][1] && a[1][1] == a[2][2] || a[0][2] == a[1][1] && a[1][1] == a[2][0]) {
-                System.out.print(a[1][1] + " won!");
+        int a = readInt();
+        if (a == 1) guesses = 10;
+        if (a == 2) guesses = 3;
+        if (a == 3) guesses = 1;
+        System.out.println("You have " + guesses + " guesses! Good luck!");
+        final Random rand = new Random();
+        final int n = min + rand.nextInt(max);
+        System.out.println("Enter a number between 1 and 100!");
+        for (int i = 1; i <= guesses; i++) {
+            if (i == guesses) System.out.println("This is your last chance");
+            int x = readInt();
+            if (x == n) {
+                System.out.println("You guessed the number with just " + i + " guesses! Well done!");
                 win = true;
-            }
-            x++;
+                break;
+            } else if (x > n) System.out.println("Guess a smaller number!");
+            else System.out.println("Guess a bigger number!");
         }
+        if (!win) System.out.println("The number was: " + n);
     }
 }
+
